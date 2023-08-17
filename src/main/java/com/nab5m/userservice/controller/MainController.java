@@ -1,4 +1,4 @@
-package com.nab5m.userservice.controllers;
+package com.nab5m.userservice.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
