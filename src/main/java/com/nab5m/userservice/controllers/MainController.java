@@ -9,4 +9,9 @@ public class MainController {
     public String getHome() {
         return "Hello World";
     }
+
+    @GetMapping("/private")
+    public String getPrivatePage() {
+        return "you are authenticated";
+    }
 }
