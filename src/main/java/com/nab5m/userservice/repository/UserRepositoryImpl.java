@@ -1,5 +1,6 @@
 package com.nab5m.userservice.repository;
 
+import com.nab5m.userservice.entity.QUser;
 import com.nab5m.userservice.entity.User;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -14,6 +15,7 @@ public class UserRepositoryImpl implements UserRepository {
     @PersistenceContext
     private EntityManager entityManager;
     private final JPAQueryFactory queryFactory;
+    private final static QUser qUser = QUser.user;
 
     @Override
     @NonNull
@@ -23,6 +25,8 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findUserByUserId(Long userId) {
-        return null;
+        return queryFactory.selectFrom(qUser)
+                .where(qUser.userId.eq(userId))
+                .fetchOne();
     }
 }
