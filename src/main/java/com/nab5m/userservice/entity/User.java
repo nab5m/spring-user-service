@@ -2,6 +2,9 @@ package com.nab5m.userservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -18,17 +21,24 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(nullable = false, unique = true)
+    // 영문, 숫자, 한글, 특수문자로 4~20자
+    @Pattern(regexp = "^[\\w가-힣\\{\\}\\[\\]\\/?.,;:|\\)*~`!^\\-+<>@\\#$%&\\\\\\=\\(\\'\\\"]{4,20}$")
+    @Column(nullable = false, unique = true, length = 20)
     private String username;
 
+    // 영문, 숫자, 특수문자 조합으로 8~50자
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(nullable = false)
+    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[\\{\\}\\[\\]\\/?.,;:|\\)*~`!^\\-+<>@\\#$%&\\\\\\=\\(\\'\\\"])(?=.*[0-9]).{8,50}$")
+    @Column(nullable = false, length = 100)
     private String password;
 
-    @Column(nullable = false)
+    @Email(regexp = "^[\\w._%+-]+@[\\w._-]+\\.[\\w]{2,}$")
+    @Column(nullable = false, length = 320)
+    @Size(max = 320)
     private String emailAddress;
 
-    @Column(nullable = false)
+    @Pattern(regexp = "^\\d{0,3}-?\\d{3,4}\\d{4}")
+    @Column(nullable = false, length=25)
     private String phoneNumber;
 
     @CreatedDate
